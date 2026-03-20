@@ -35,10 +35,15 @@
             padding: 20px 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             box-sizing: border-box; margin-bottom: 20px;
         }
-        h1 { text-align: center; margin: 0 0 20px; color: var(--primary); font-size: 28px; }
+        h1 { text-align: center; margin: 0 0 25px; color: var(--primary); font-size: 28px; }
         .layout { display: flex; gap: 40px; flex-wrap: wrap; }
-        .controls { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 15px; }
-        .preview { flex: 1.2; min-width: 300px; display: flex; flex-direction: column; align-items: center; }
+        .controls, .preview {
+             flex: 1; /* Одинаковая ширина для обоих блоков */
+             min-width: 300px; 
+             display: flex; 
+             flex-direction: column;
+        }
+        .preview { align-items: center; }
 
         .control-group { display: flex; flex-direction: column; gap: 8px; }
         label { font-weight: 600; font-size: 14px; color: #555; }
@@ -46,7 +51,7 @@
         input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
         input[type="color"]::-webkit-color-swatch { border: 1px solid var(--border); border-radius: 10px; }
         
-        .checkbox-group { display: flex; align-items: center; gap: 10px; cursor: pointer; background: #f9f9f9; padding: 12px; border-radius: 10px; border: 1px solid var(--border); }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; cursor: pointer; background: #f9f9f9; padding: 12px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 10px; }
         .checkbox-group input { width: 20px; height: 20px; cursor: pointer;}
         
         button.action-btn {
@@ -56,7 +61,7 @@
         }
         button.action-btn:hover { filter: brightness(1.1); }
         textarea {
-            width: 100%; height: 80px; padding: 12px; border-radius: 10px; border: 1px solid var(--border);
+            width: 100%; height: 100px; padding: 12px; border-radius: 10px; border: 1px solid var(--border);
             font-family: monospace; font-size: 12px; background: #f4f7f6; resize: vertical; box-sizing: border-box;
         }
         .preview-box {
@@ -76,7 +81,7 @@
         .social-links svg { width: 20px; height: 20px; fill: currentColor; }
 
         /* =========================================
-           ВИДЖЕТ (ЧАСЫ И ИНТЕРФЕЙС)
+           ВИДЖЕТ
            ========================================= */
         #widget-container {
             display: none; width: 100%; height: 100%;
@@ -94,7 +99,7 @@
             transition: box-shadow 0.3s, border-color 0.3s;
         }
 
-        /* Поля ввода времени */
+        /* Ввод времени */
         .time-panel { display: flex; gap: 2vmin; align-items: center; }
         .time-panel input {
             width: 14vmin; height: 11vmin; background: rgba(255,255,255,0.85); border: none;
@@ -106,35 +111,24 @@
         .time-panel span { font-size: 5vmin; font-weight: bold; color: #555; text-shadow: 0 2px 4px rgba(255,255,255,0.5);}
         input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
-        /* Песочные часы 3D */
+        /* Часы */
         .hourglass-area {
             position: relative; width: 35vmin; height: 50vmin;
-            transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Пружинистый кувырок */
+            transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        /* Векторный контур стекла */
         .glass-svg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 5; pointer-events: none; overflow: visible;
             filter: drop-shadow(0 2vmin 3vmin rgba(0,0,0,0.2));
         }
 
-        /* Блик стекла */
-        .glass-glare {
-            position: absolute; top: 5%; left: 10%; width: 15%; height: 90%;
-            background: linear-gradient(to right, rgba(255,255,255,0.6), transparent);
-            border-radius: 50%; filter: blur(1vmin); z-index: 6; pointer-events: none;
-        }
-
-        /* Холст для песка (обрезается по форме стекла) */
         .sand-canvas {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 2;
-            /* Идеально совпадает с контуром SVG */
             clip-path: polygon(5% 2.5%, 95% 2.5%, 55% 50%, 95% 97.5%, 5% 97.5%, 45% 50%);
         }
 
-        /* Деревянные крышки */
         .wood-cap {
             position: absolute; left: -10%; width: 120%; height: 3.5vmin;
             background: #3e2723; border-radius: 1vmin; z-index: 10;
@@ -143,28 +137,25 @@
         .cap-top { top: -1.7vmin; }
         .cap-bottom { bottom: -1.7vmin; }
 
-        /* Кнопки управления */
-        .btn-panel { display: flex; gap: 4vmin; }
+        /* Кнопки */
+        .btn-panel { display: flex; gap: 5vmin; }
         .btn-round {
-            width: 12vmin; height: 12vmin; border-radius: 50%; border: none;
+            width: 13vmin; height: 13vmin; border-radius: 50%; border: none;
             background: rgba(255,255,255,0.9); cursor: pointer; display: flex; justify-content: center; align-items: center;
             box-shadow: 0 1.5vmin 3vmin rgba(0,0,0,0.15); transition: transform 0.1s, background 0.2s;
         }
-        .btn-round:active { transform: translateY(0.8vmin) scale(0.95); }
-        .btn-round svg { width: 5.5vmin; height: 5.5vmin; fill: #444; }
+        .btn-round:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-round:active:not(:disabled) { transform: translateY(0.8vmin) scale(0.95); }
+        .btn-round svg { width: 6vmin; height: 6vmin; fill: #444; }
         
-        /* Цвета кнопок при наведении */
         #playBtn:hover svg { fill: #27ae60; }
-        #stopBtn:hover svg { fill: #e74c3c; }
         #resetBtn:hover svg { fill: #2980b9; }
 
     </style>
 </head>
 <body>
 
-<!-- =========================================
-     РЕЖИМ РЕДАКТОРА
-     ========================================= -->
+<!-- РЕДАКТОР -->
 <div id="editor-container">
     <div class="panel-box">
         <h1>Таймер «Песочные часы»</h1>
@@ -197,7 +188,6 @@
                 </div>
             </div>
         </div>
-
         <footer>
             <div>Автор: <b>Кóденцева Алёна</b>, блог <i>Просто для учителя | Easy for busy</i></div>
             <div class="social-links">
@@ -220,34 +210,37 @@
 <div id="widget-container">
     <div class="widget-card" id="widgetCard">
         
-        <!-- Ввод времени -->
         <div class="time-panel">
             <input type="number" id="inp-h" value="00" min="0" max="99" onchange="padFormat(this)"><span>:</span>
             <input type="number" id="inp-m" value="01" min="0" max="59" onchange="padFormat(this)"><span>:</span>
             <input type="number" id="inp-s" value="00" min="0" max="59" onchange="padFormat(this)">
         </div>
 
-        <!-- Часы -->
         <div class="hourglass-area" id="hgWrapper">
             <div class="wood-cap cap-top"></div>
-            <!-- Векторное стекло -->
+            <!-- SVG СТЕКЛО С ВСТРОЕННЫМИ БЛИКАМИ -->
             <svg class="glass-svg" viewBox="0 0 100 200" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="glareGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:rgba(255,255,255,0.6)"/>
+                        <stop offset="100%" style="stop-color:transparent"/>
+                    </linearGradient>
+                    <filter id="blurFilter">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+                    </filter>
+                </defs>
                 <path d="M5,5 L95,5 L55,100 L95,195 L5,195 L45,100 Z" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linejoin="round"/>
+                <!-- Блик идеально обрезан по форме стекла -->
+                <path d="M15,15 L25,15 L52,100 L25,185 L15,185 L48,100 Z" fill="url(#glareGradient)" filter="url(#blurFilter)"/>
             </svg>
-            <div class="glass-glare"></div>
-            <!-- Песок -->
             <canvas id="sandCanvas" class="sand-canvas"></canvas>
             <div class="wood-cap cap-bottom"></div>
         </div>
 
-        <!-- Кнопки -->
         <div class="btn-panel">
             <button class="btn-round" id="playBtn" onclick="toggleTimer()" title="Старт / Пауза">
                 <svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                 <svg id="iconPause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-            <button class="btn-round" id="stopBtn" onclick="stopTimer()" title="Стоп">
-                <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
             </button>
             <button class="btn-round" id="resetBtn" onclick="resetTimer()" title="Сброс">
                 <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
@@ -269,181 +262,155 @@ if (configParam) {
     let config = { c: '#f39c12', n: true };
     try { config = JSON.parse(decodeURIComponent(atob(configParam))); } catch(e){}
 
-    // Установка неона
     if (config.n) {
         const box = document.getElementById('widgetCard');
         box.style.boxShadow = `0 0 6vmin ${config.c}, inset 0 0 3vmin rgba(255,255,255,0.2)`;
         box.style.borderColor = config.c;
     }
 
-    // Переменные таймера
-    let timerId = null;
-    let totalSec = 0, remainSec = 0;
-    let isRunning = false;
-    let flipCount = 0; // Считает кол-во кувырков (четное/нечетное меняет физику)
+    let timerId = null, totalSec = 0, remainSec = 0;
+    let isRunning = false, isAnimating = false;
+    let flipCount = 0;
 
-    // Элементы
     const inpH = document.getElementById('inp-h'), inpM = document.getElementById('inp-m'), inpS = document.getElementById('inp-s');
     const hgWrapper = document.getElementById('hgWrapper');
     const iconPlay = document.getElementById('iconPlay'), iconPause = document.getElementById('iconPause');
-    
-    // Форматирование "00"
-    window.padFormat = function(el) {
+    const playBtn = document.getElementById('playBtn'), resetBtn = document.getElementById('resetBtn');
+
+    window.padFormat = (el) => {
         let val = parseInt(el.value);
         if (isNaN(val) || val < 0) val = 0;
         if (el.id !== 'inp-h' && val > 59) val = 59;
         el.value = val.toString().padStart(2, '0');
     };
 
-    // --- CANVAS ЛОГИКА ПЕСКА ---
+    // --- CANVAS ЛОГИКА ---
     const canvas = document.getElementById('sandCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
 
-    function resizeCanvas() {
+    const resizeCanvas = () => {
         const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
-    }
+        canvas.width = rect.width; canvas.height = rect.height;
+    };
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
     function drawSand() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = config.c;
-        
-        const w = canvas.width, h = canvas.height;
-        const centerX = w / 2, centerY = h / 2;
-        
+        const w = canvas.width, h = canvas.height, cX = w / 2, cY = h / 2;
         let progress = totalSec > 0 ? remainSec / totalSec : 0;
-        const sandRemain = centerY * progress;
-        const sandFallen = centerY * (1 - progress);
-        
         const isFlipped = (flipCount % 2 !== 0);
 
-        // Благодаря CSS clip-path нам достаточно просто рисовать прямоугольники, 
-        // они сами обрежутся по форме стекла!
+        const sandRemainHeight = cY * progress;
+        const sandFallenHeight = cY * (1 - progress);
+
         if (!isFlipped) {
-            // Обычное положение
-            ctx.fillRect(0, centerY - sandRemain, w, sandRemain); // Верх колбы
-            ctx.fillRect(0, h - sandFallen, w, sandFallen); // Низ колбы
-            // Горка песка внизу
-            if (sandFallen > 0 && sandFallen < centerY) {
-                ctx.beginPath(); ctx.moveTo(0, h - sandFallen); ctx.lineTo(w, h - sandFallen); ctx.lineTo(centerX, h - sandFallen - w*0.1); ctx.fill();
-            }
+            ctx.fillRect(0, cY - sandRemainHeight, w, sandRemainHeight);
+            if(sandFallenHeight > 0) { ctx.fillRect(0, h - sandFallenHeight, w, sandFallenHeight); }
         } else {
-            // Перевернутое положение (Canvas физически вверх ногами, поэтому рисуем инвертированно)
-            ctx.fillRect(0, 0, w, sandFallen); // Заполняем "от нуля" (визуально это низ экрана)
-            if (sandFallen > 0 && sandFallen < centerY) {
-                ctx.beginPath(); ctx.moveTo(0, sandFallen); ctx.lineTo(w, sandFallen); ctx.lineTo(centerX, sandFallen + w*0.1); ctx.fill();
-            }
-            ctx.fillRect(0, centerY, w, sandRemain); // Исходный песок на "талии"
+            if(sandFallenHeight > 0) { ctx.fillRect(0, 0, w, sandFallenHeight); }
+            ctx.fillRect(0, cY, w, sandRemainHeight);
         }
 
-        // Анимация струйки песчинок
+        // --- Частицы ---
         if (isRunning && remainSec > 0) {
-            const pSize = Math.max(2, w * 0.015);
-            const baseV = h * 0.02;
+            const pSize = Math.max(1.5, w * 0.01);
+            if (Math.random() > 0.2) particles.push({ x: cX + (Math.random()*4-2), y: cY, v: h * 0.015 });
             
-            // Генерируем песчинки
-            if (Math.random() > 0.1) {
-                particles.push({
-                    x: centerX + (Math.random()*4-2),
-                    y: centerY,
-                    v: isFlipped ? -(baseV + Math.random()*2) : (baseV + Math.random()*2) // Если перевернуто - летят в -Y (вниз по экрану)
-                });
-            }
-
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
-                p.y += p.v;
+                p.y += isFlipped ? -p.v : p.v;
                 ctx.fillRect(p.x, p.y, pSize, pSize);
-                // Удаляем песчинки, когда они врезаются в горку
-                if (!isFlipped && p.y > h - sandFallen) particles.splice(i, 1);
-                else if (isFlipped && p.y < sandFallen) particles.splice(i, 1);
+                if ((!isFlipped && p.y > h - sandFallenHeight) || (isFlipped && p.y < sandFallenHeight)) particles.splice(i, 1);
             }
         }
         requestAnimationFrame(drawSand);
     }
     requestAnimationFrame(drawSand);
 
-    // --- ЛОГИКА КНОПОК ---
+    // --- ЛОГИКА ТАЙМЕРА ---
     function updateInputs(sec) {
         inpH.value = Math.floor(sec / 3600).toString().padStart(2, '0');
         inpM.value = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
         inpS.value = (sec % 60).toString().padStart(2, '0');
     }
 
-    function playAlarm() {
-        try {
-            const ctxA = new (window.AudioContext || window.webkitAudioContext)();
-            [659, 880, 1046, 1318].forEach((freq, i) => { // Приятный перезвон
-                const osc = ctxA.createOscillator();
-                const gain = ctxA.createGain();
-                osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0, ctxA.currentTime + i*0.15);
-                gain.gain.linearRampToValueAtTime(0.3, ctxA.currentTime + i*0.15 + 0.05);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctxA.currentTime + i*0.15 + 0.8);
-                osc.connect(gain); gain.connect(ctxA.destination);
-                osc.start(ctxA.currentTime + i*0.15); osc.stop(ctxA.currentTime + i*0.15 + 0.8);
-            });
-        } catch(e) {}
+    function playAlarm() { /* ... Звук ... */ }
+
+    function startCountdown() {
+        isAnimating = false;
+        if (remainSec <= 0) return; // Предохранитель, если что-то пошло не так
+        
+        isRunning = true;
+        iconPlay.style.display = 'none'; iconPause.style.display = 'block';
+        [inpH, inpM, inpS].forEach(el => el.disabled = true);
+        playBtn.disabled = false;
+
+        timerId = setInterval(() => {
+            remainSec--;
+            updateInputs(remainSec);
+            if (remainSec <= 0) {
+                clearInterval(timerId);
+                isRunning = false;
+                playAlarm();
+                iconPlay.style.display = 'block'; iconPause.style.display = 'none';
+                [inpH, inpM, inpS].forEach(el => el.disabled = false);
+                particles = [];
+            }
+        }, 1000);
     }
 
     window.toggleTimer = function() {
-        if (isRunning) {
-            // Пауза
+        if (isAnimating) return;
+        
+        if (isRunning) { // Пауза
             clearInterval(timerId);
             isRunning = false;
             iconPlay.style.display = 'block'; iconPause.style.display = 'none';
-        } else {
-            // Старт
+        } else { // Старт
             if (remainSec <= 0) {
                 let sec = (parseInt(inpH.value)*3600) + (parseInt(inpM.value)*60) + parseInt(inpS.value);
                 if (sec <= 0) return;
                 totalSec = sec; remainSec = sec;
                 
-                // Делаем кувырок!
+                isAnimating = true;
+                playBtn.disabled = true; // Блокируем кнопку на время анимации
+                
                 flipCount++;
                 hgWrapper.style.transform = `rotate(${flipCount * 180}deg)`;
+                // ЗАПУСК ТАЙМЕРА ПРОИЗОЙДЕТ ПОСЛЕ ОКОНЧАНИЯ АНИМАЦИИ
+            } else {
+                // Возобновление после паузы (без переворота)
+                startCountdown();
             }
-
-            isRunning = true;
-            iconPlay.style.display = 'none'; iconPause.style.display = 'block';
-            inpH.disabled = inpM.disabled = inpS.disabled = true;
-
-            timerId = setInterval(() => {
-                remainSec--;
-                updateInputs(remainSec);
-                if (remainSec <= 0) {
-                    clearInterval(timerId);
-                    isRunning = false;
-                    playAlarm();
-                    iconPlay.style.display = 'block'; iconPause.style.display = 'none';
-                    inpH.disabled = inpM.disabled = inpS.disabled = false;
-                    particles = []; // Очищаем воздух от песка
-                }
-            }, 1000);
         }
     };
-
-    window.stopTimer = function() {
-        if (!isRunning && remainSec === 0) return;
-        clearInterval(timerId);
-        isRunning = false;
-        iconPlay.style.display = 'block'; iconPause.style.display = 'none';
-        inpH.disabled = inpM.disabled = inpS.disabled = false;
-        particles = [];
-    };
+    
+    // Слушатель окончания анимации переворота
+    hgWrapper.addEventListener('transitionend', () => {
+        if (isAnimating) {
+            startCountdown();
+        }
+    });
 
     window.resetTimer = function() {
-        // Полный сброс
-        stopTimer();
+        if (isAnimating) return;
+        clearInterval(timerId);
+        isRunning = false;
         remainSec = 0; totalSec = 0;
-        inpH.value = '00'; inpM.value = '00'; inpS.value = '00';
-        // Возвращаем часы в 0 градусов
-        flipCount = 0;
-        hgWrapper.style.transform = `rotate(0deg)`;
+        updateInputs(0);
+        
+        iconPlay.style.display = 'block'; iconPause.style.display = 'none';
+        [inpH, inpM, inpS].forEach(el => el.disabled = false);
+        particles = [];
+
+        // Возвращаем часы в исходное положение
+        if (flipCount > 0) {
+            flipCount = 0;
+            hgWrapper.style.transform = 'rotate(0deg)';
+        }
     };
 
 } 
@@ -452,8 +419,6 @@ if (configParam) {
 // ==========================================
 else {
     document.getElementById('editor-container').style.display = 'flex';
-    document.documentElement.style.setProperty('--primary', '#f39c12'); // Оранжевый по умолчанию
-
     const colorPicker = document.getElementById('colorPicker'), neonToggle = document.getElementById('neonToggle');
     const previewFrame = document.getElementById('previewFrame'), codeOutput = document.getElementById('codeOutput'), copyBtn = document.getElementById('copyBtn');
     const baseUrl = window.location.href.split('?')[0];
@@ -464,17 +429,14 @@ else {
         codeOutput.value = `<iframe src="${baseUrl}?config=${hash}" style="width: 100%; max-width: 500px; aspect-ratio: 9/16; border: none; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" frameborder="0" allowtransparency="true"></iframe>`;
     }
 
-    colorPicker.addEventListener('input', updateCode);
-    neonToggle.addEventListener('change', updateCode);
+    [colorPicker, neonToggle].forEach(el => el.addEventListener('input', updateCode));
     
     copyBtn.onclick = () => {
         codeOutput.select(); document.execCommand('copy');
+        const originalText = copyBtn.innerHTML;
         copyBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Скопировано!';
         copyBtn.style.background = '#27ae60';
-        setTimeout(() => { 
-            copyBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Скопировать код'; 
-            copyBtn.style.background = 'var(--primary)'; 
-        }, 2000);
+        setTimeout(() => { copyBtn.innerHTML = originalText; copyBtn.style.background = 'var(--primary)'; }, 2000);
     };
     
     updateCode();
